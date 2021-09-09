@@ -52,12 +52,11 @@ struct MarkdownRepresentable: UIViewRepresentable {
         
         markdownObject.textView.textAlignment = .left
         markdownObject.textView.isScrollEnabled = false
-        markdownObject.textView.isUserInteractionEnabled = false
+        markdownObject.textView.isUserInteractionEnabled = true
         markdownObject.textView.showsVerticalScrollIndicator = false
         markdownObject.textView.showsHorizontalScrollIndicator = false
-        markdownObject.textView.allowsEditingTextAttributes = false
+        markdownObject.textView.isEditable = false
         markdownObject.textView.backgroundColor = .clear
-        
         markdownObject.textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         markdownObject.textView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         
@@ -67,11 +66,9 @@ struct MarkdownRepresentable: UIViewRepresentable {
     func updateUIView(_ uiView: UITextView, context: Context) {
         DispatchQueue.main.async {
             uiView.textColor = colorScheme == .dark ? UIColor.white : UIColor.black
-            DispatchQueue.main.async {
-                dynamicHeight = uiView.sizeThatFits(CGSize(width: uiView.bounds.width,
-                                                           height: CGFloat.greatestFiniteMagnitude))
-                    .height
-            }
+            dynamicHeight = uiView.sizeThatFits(CGSize(width: uiView.bounds.width,
+                                                       height: CGFloat.greatestFiniteMagnitude))
+                .height
         }
     }
 }
