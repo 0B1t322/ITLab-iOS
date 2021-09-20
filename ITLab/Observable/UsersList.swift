@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 final class UsersListObservable: ObservableObject {
     @Published var isLoading: Bool = true
@@ -26,6 +27,20 @@ final class UsersListObservable: ObservableObject {
                 return
             }
             DispatchQueue.main.async {
+                
+                do {
+                    let realm = try Realm()
+                    try realm.write {
+                        users.filter {$0.lastName != nil}.forEach {
+                            realm.create(UserRealm.self,
+                                         value: UserRealm(user: $0),
+                                         update: .modified)
+                        }
+                    }
+                } catch {
+                    print("Realm fail")
+                }
+                
                 self.users = users.filter {$0.lastName != nil}
                 self.users.sort {
                     $0.lastName ?? "" < $1.lastName ?? ""
