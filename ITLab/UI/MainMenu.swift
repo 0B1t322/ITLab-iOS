@@ -7,13 +7,14 @@
 
 import SwiftUI
 import PushNotification
+import RealmSwift
 
 struct MainMenu: View {
     
     var eventPage = EventsPage()
     var usersPage = UsersListPage()
     var projectsPage = ProjectsMenuPage()
-    @State var user: UserView = UserView()
+    @State var user: UserRealm = UserRealm()
     
     var body: some View {
         TabView {
@@ -54,13 +55,23 @@ struct MainMenu: View {
             OAuthITLab.shared.getToken { token in
                 activateNotify(user: token)
                 
-                usersPage.loadingData()
+                usersPage.loadingData {
+                    do {
+                        let realm = try Realm()
+                        
+                        if let profile = realm.objects(UserRealm.self).filter({
+                            $0.id == OAuthITLab.shared.getUserInfo()?.userId
+                        })
+                            .first {
+                            user = profile
+                        }
+                    } catch {
+                        print("Not load user profile")
+                    }
+                }
+                
                 eventPage.loadingData()
                 projectsPage.reportsObject.getReports()
-                
-                if let profile = OAuthITLab.shared.getUserInfo()?.profile {
-                    user = profile
-                }
             }
             
             Contact.requestAccess()
