@@ -27,12 +27,52 @@ final class UsersListObservable: ObservableObject {
                 }
                 
                 self.isLoading = false
+                
+                DispatchQueue.main.async {
+                    self.getUsersUpdate()
+                    
+                }
             }
             
         } catch {
             print("Not realm loading")
             
             getUsers(callback: callback)
+        }
+    }
+    
+    func getUsersUpdate() {
+        UserAPI.apiUserGet(count: -1) { (users, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let users = users else {
+                print("Not data")
+                return
+            }
+            
+            users.filter {$0.lastName != nil}.forEach {
+                self.users.append(UserRealm(user: $0))
+            }
+            
+            do {
+                let realm = try Realm()
+                try realm.write {
+                    self.users.forEach {
+                        realm.create(UserRealm.self,
+                                     value: $0,
+                                     update: .modified)
+                    }
+                }
+            } catch {
+                print("Realm fail")
+            }
+            
+            self.users.sort {
+                $0.lastName < $1.lastName
+            }
         }
     }
     
