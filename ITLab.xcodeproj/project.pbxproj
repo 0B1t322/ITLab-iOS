@@ -16,6 +16,8 @@
 		6D2AD5EB2660218B009FD4A9 /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = 6D2AD5EA2660218B009FD4A9 /* Siren */; };
 		6D2D860B2629DE5A00E98E0A /* PushNotification in Frameworks */ = {isa = PBXBuildFile; productRef = 6D2D860A2629DE5A00E98E0A /* PushNotification */; };
 		6D357CEB2539BF9A000B0F60 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D357CEA2539BF9A000B0F60 /* LaunchScreen.storyboard */; };
+		6D37E74D26FCA39D00B1614C /* CallDirectoryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D37E74C26FCA39D00B1614C /* CallDirectoryHandler.swift */; };
+		6D37E75126FCA39D00B1614C /* ITLab-IICall.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6D37E74A26FCA39D00B1614C /* ITLab-IICall.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6D3EC19A264EAA2100DE67D3 /* ColorPaletterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC199264EAA2100DE67D3 /* ColorPaletterView.swift */; };
 		6D3EC19F264EAA9900DE67D3 /* ColorPaletteObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC19E264EAA9900DE67D3 /* ColorPaletteObservable.swift */; };
 		6D3EC1A2264EADE600DE67D3 /* EventsObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC1A1264EADE600DE67D3 /* EventsObservable.swift */; };
@@ -140,6 +142,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6D37E74F26FCA39D00B1614C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6D9A0C592518EBAA007796CD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6D37E74926FCA39D00B1614C;
+			remoteInfo = "ITLab-IICall";
+		};
 		6DE1A421263BD5F20016B16B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6D9A0C592518EBAA007796CD /* Project object */;
@@ -148,6 +157,20 @@
 			remoteInfo = ITLab;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6D37E75226FCA39D00B1614C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6D37E75126FCA39D00B1614C /* ITLab-IICall.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6D00FE6C255014A5000ED344 /* AuthorizationPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationPage.swift; sourceTree = "<group>"; };
@@ -158,6 +181,9 @@
 		6D18A1E8252C8CE2002B0B3C /* EventsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsPage.swift; sourceTree = "<group>"; };
 		6D2AB27F2533686000AFCDBB /* EventDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDescription.swift; sourceTree = "<group>"; };
 		6D357CEA2539BF9A000B0F60 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6D37E74A26FCA39D00B1614C /* ITLab-IICall.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ITLab-IICall.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D37E74C26FCA39D00B1614C /* CallDirectoryHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallDirectoryHandler.swift; sourceTree = "<group>"; };
+		6D37E74E26FCA39D00B1614C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D3EC199264EAA2100DE67D3 /* ColorPaletterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletterView.swift; sourceTree = "<group>"; };
 		6D3EC19E264EAA9900DE67D3 /* ColorPaletteObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteObservable.swift; sourceTree = "<group>"; };
 		6D3EC1A1264EADE600DE67D3 /* EventsObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsObservable.swift; sourceTree = "<group>"; };
@@ -283,6 +309,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6D37E74726FCA39D00B1614C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6D9A0C5E2518EBAA007796CD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -307,6 +340,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D37E74B26FCA39D00B1614C /* ITLab-IICall */ = {
+			isa = PBXGroup;
+			children = (
+				6D37E74C26FCA39D00B1614C /* CallDirectoryHandler.swift */,
+				6D37E74E26FCA39D00B1614C /* Info.plist */,
+			);
+			path = "ITLab-IICall";
+			sourceTree = "<group>";
+		};
 		6D3EC19C264EAA6100DE67D3 /* Observable */ = {
 			isa = PBXGroup;
 			children = (
@@ -375,6 +417,7 @@
 			children = (
 				6D9A0C632518EBAA007796CD /* ITLab */,
 				6DE1A41D263BD5F20016B16B /* ITLabUITests */,
+				6D37E74B26FCA39D00B1614C /* ITLab-IICall */,
 				6D9A0C622518EBAA007796CD /* Products */,
 				6DDD821C252DFBD2008CE80A /* Frameworks */,
 			);
@@ -385,6 +428,7 @@
 			children = (
 				6D9A0C612518EBAA007796CD /* ITLab.app */,
 				6DE1A41C263BD5F20016B16B /* ITLabUITests.xctest */,
+				6D37E74A26FCA39D00B1614C /* ITLab-IICall.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -622,6 +666,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6D37E74926FCA39D00B1614C /* ITLab-IICall */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6D37E75526FCA39D00B1614C /* Build configuration list for PBXNativeTarget "ITLab-IICall" */;
+			buildPhases = (
+				6D37E74626FCA39D00B1614C /* Sources */,
+				6D37E74726FCA39D00B1614C /* Frameworks */,
+				6D37E74826FCA39D00B1614C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ITLab-IICall";
+			productName = "ITLab-IICall";
+			productReference = 6D37E74A26FCA39D00B1614C /* ITLab-IICall.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		6D9A0C602518EBAA007796CD /* ITLab */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D9A0C702518EBB2007796CD /* Build configuration list for PBXNativeTarget "ITLab" */;
@@ -630,10 +691,12 @@
 				6D9A0C5E2518EBAA007796CD /* Frameworks */,
 				6D9A0C5F2518EBAA007796CD /* Resources */,
 				6D0C7D3F26441C88005DA83E /* SwiftLint */,
+				6D37E75226FCA39D00B1614C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6D37E75026FCA39D00B1614C /* PBXTargetDependency */,
 			);
 			name = ITLab;
 			packageProductDependencies = (
@@ -673,9 +736,12 @@
 		6D9A0C592518EBAA007796CD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
+				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					6D37E74926FCA39D00B1614C = {
+						CreatedOnToolsVersion = 13.0;
+					};
 					6D9A0C602518EBAA007796CD = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -708,11 +774,19 @@
 			targets = (
 				6D9A0C602518EBAA007796CD /* ITLab */,
 				6DE1A41B263BD5F20016B16B /* ITLabUITests */,
+				6D37E74926FCA39D00B1614C /* ITLab-IICall */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6D37E74826FCA39D00B1614C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6D9A0C5F2518EBAA007796CD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -754,6 +828,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6D37E74626FCA39D00B1614C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D37E74D26FCA39D00B1614C /* CallDirectoryHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6D9A0C5D2518EBAA007796CD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -891,6 +973,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6D37E75026FCA39D00B1614C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6D37E74926FCA39D00B1614C /* ITLab-IICall */;
+			targetProxy = 6D37E74F26FCA39D00B1614C /* PBXContainerItemProxy */;
+		};
 		6DE1A422263BD5F20016B16B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6D9A0C602518EBAA007796CD /* ITLab */;
@@ -899,6 +986,64 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		6D37E75326FCA39D00B1614C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZBVHAA67XK;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ITLab-IICall/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "ITLab-IICall";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.RTUITLab.ITLab.ITLab-IICall";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6D37E75426FCA39D00B1614C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZBVHAA67XK;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ITLab-IICall/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "ITLab-IICall";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.RTUITLab.ITLab.ITLab-IICall";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		6D9A0C6E2518EBB2007796CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6D65A7B62541F03D00E918BD /* DebugConfig.xcconfig */;
@@ -1022,6 +1167,7 @@
 		6D9A0C712518EBB2007796CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ITLab/ITLab.entitlements;
@@ -1049,6 +1195,7 @@
 		6D9A0C722518EBB2007796CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ITLab/ITLab.entitlements;
@@ -1116,6 +1263,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6D37E75526FCA39D00B1614C /* Build configuration list for PBXNativeTarget "ITLab-IICall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6D37E75326FCA39D00B1614C /* Debug */,
+				6D37E75426FCA39D00B1614C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6D9A0C5C2518EBAA007796CD /* Build configuration list for PBXProject "ITLab" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
