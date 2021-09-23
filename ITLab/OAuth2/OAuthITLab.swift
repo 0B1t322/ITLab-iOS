@@ -246,7 +246,6 @@ extension OAuthITLab {
 
 struct UserInfo: Codable {
     let userId: UUID
-    var profile: UserView?
     private var roles: [String: Bool] = ["CanEditEquipment": false,
                                          "CanEditEvent": false,
                                          "CanInviteToSystem": false,
@@ -270,13 +269,11 @@ struct UserInfo: Codable {
     public enum CodingKeys: String, CodingKey {
         case userId = "sub"
         case roles = "role"
-        case profile
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         userId = try container.decode(UUID.self, forKey: .userId)
-        profile = try? container.decode(UserView.self, forKey: .profile)
         if let roles = try? container.decode([String].self, forKey: .roles) {
             roles.forEach { (role) in
                 self.roles.updateValue(true, forKey: role)
@@ -337,20 +334,9 @@ extension OAuthITLab {
                     return
                 }
                 self.userInfo = user
-                getToken {
-                    
-                    UserAPI.apiUserIdGet(_id: user.userId) { (profile, error) in
-                        if let error = error {
-                            print(error)
-                            return
-                        }
-                        
-                        self.userInfo?.profile = profile
-                        self.saveUserInfo()
-                        
-                        complited()
-                    }
-                }
+                self.saveUserInfo()
+                
+                complited()
             }
         }
         

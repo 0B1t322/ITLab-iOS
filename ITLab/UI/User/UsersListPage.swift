@@ -24,9 +24,9 @@ struct UsersListPage: View {
                 } else {
                     Section(header: SearchBar(text: $userSearch)) {
                         ForEach(usersList.users.filter {
-                            self.userSearch.isEmpty ? true : "\($0.lastName ?? "") \($0.firstName ?? "") \($0.middleName ?? "")"
+                            self.userSearch.isEmpty ? true : "\($0.lastName) \($0.firstName) \($0.middleName ?? "")"
                                 .lowercased().contains(self.userSearch.lowercased())
-                        }, id: \._id) { user in
+                        }, id: \.id) { user in
                             UserStack(user: user)
                         }
                     }
@@ -42,20 +42,20 @@ struct UsersListPage: View {
                 .navigationViewStyle(StackNavigationViewStyle())
     }
     
-    func loadingData() {
-        usersList.getUsers()
+    func loadingData(callback: (() -> Void)? = nil) {
+        usersList.loadData(callback: callback)
     }
 }
 
 extension UsersListPage {
     struct UserStack: View {
-        @State var user: UserView
+        @State var user: UserRealm
 
         var body: some View {
             NavigationLink(destination: UserPage(user: self.user)) {
                 VStack(alignment: .leading) {
                     VStack(alignment: .leading) {
-                        Text("\(user.lastName ?? "") \(user.firstName ?? "")")
+                        Text("\(user.lastName) \(user.firstName)")
                                 .font(.title3)
                                 .fontWeight(.bold)
                         if let middleName = user.middleName {
@@ -71,12 +71,10 @@ extension UsersListPage {
 
                     HStack(alignment: .center) {
                         VStack(alignment: .center, spacing: 10) {
-                            if user.email != nil {
                                 Image(systemName: "envelope.fill")
                                         .foregroundColor(.gray)
                                         .opacity(0.5)
                                         .padding(.top, 3)
-                            }
 
                             if user.phoneNumber != nil {
                                 Image(systemName: "phone.circle.fill")
