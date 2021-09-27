@@ -55,19 +55,13 @@ struct MainMenu: View {
             OAuthITLab.shared.getToken { token in
                 activateNotify(user: token)
                 
-                usersPage.loadingData {
-                    do {
-                        let realm = try Realm()
-                        
-                        if let profile = realm.objects(UserRealm.self).filter({
+                usersPage.loadingData { users in
+                        if let profile = users.filter({
                             $0.id == OAuthITLab.shared.getUserInfo()?.userId
                         })
                             .first {
                             user = profile
                         }
-                    } catch {
-                        print("Not load user profile")
-                    }
                 }
                 
                 eventPage.loadingData()

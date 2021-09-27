@@ -12,7 +12,7 @@ final class UsersListObservable: ObservableObject {
     @Published var isLoading: Bool = true
     @Published var users: [UserRealm] = []
     
-    func loadData(callback: (() -> Void)?) {
+    func loadData(callback: (([UserRealm]) -> Void)?) {
         do {
             let realm = try Realm()
             self.users = realm.objects(UserRealm.self)
@@ -23,7 +23,7 @@ final class UsersListObservable: ObservableObject {
             } else {
                 
                 if let callback = callback {
-                    callback()
+                    callback(self.users)
                 }
                 
                 self.isLoading = false
@@ -76,7 +76,7 @@ final class UsersListObservable: ObservableObject {
         }
     }
     
-    func getUsers(callback: (() -> Void)?) {
+    func getUsers(callback: (([UserRealm]) -> Void)?) {
         UserAPI.apiUserGet(count: -1) { (users, error) in
             
             if let error = error {
@@ -114,7 +114,7 @@ final class UsersListObservable: ObservableObject {
                 }
                 
                 if let callback = callback {
-                    callback()
+                    callback(self.users)
                 }
                 
                 self.isLoading = false

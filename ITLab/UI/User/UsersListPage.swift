@@ -42,7 +42,7 @@ struct UsersListPage: View {
                 .navigationViewStyle(StackNavigationViewStyle())
     }
     
-    func loadingData(callback: (() -> Void)? = nil) {
+    func loadingData(callback: (([UserRealm]) -> Void)? = nil) {
         usersList.loadData(callback: callback)
     }
 }
