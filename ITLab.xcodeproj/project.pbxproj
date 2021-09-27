@@ -18,6 +18,12 @@
 		6D357CEB2539BF9A000B0F60 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D357CEA2539BF9A000B0F60 /* LaunchScreen.storyboard */; };
 		6D37E74D26FCA39D00B1614C /* CallDirectoryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D37E74C26FCA39D00B1614C /* CallDirectoryHandler.swift */; };
 		6D37E75126FCA39D00B1614C /* ITLab-IICall.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6D37E74A26FCA39D00B1614C /* ITLab-IICall.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6D37E78326FCCBCC00B1614C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 6D37E78226FCCBCC00B1614C /* Realm */; };
+		6D37E78526FCCBCC00B1614C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6D37E78426FCCBCC00B1614C /* RealmSwift */; };
+		6D37E78626FCCD8700B1614C /* UserRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D72FC9A26F8DB940090228E /* UserRealm.swift */; };
+		6D37E78726FCCF3800B1614C /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD819D252DF78B008CE80A /* UserView.swift */; };
+		6D37E78826FCCF5100B1614C /* UserPropertyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD81B1252DF78B008CE80A /* UserPropertyView.swift */; };
+		6D37E78926FCCF5B00B1614C /* UserPropertyTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD819F252DF78B008CE80A /* UserPropertyTypeView.swift */; };
 		6D3EC19A264EAA2100DE67D3 /* ColorPaletterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC199264EAA2100DE67D3 /* ColorPaletterView.swift */; };
 		6D3EC19F264EAA9900DE67D3 /* ColorPaletteObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC19E264EAA9900DE67D3 /* ColorPaletteObservable.swift */; };
 		6D3EC1A2264EADE600DE67D3 /* EventsObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC1A1264EADE600DE67D3 /* EventsObservable.swift */; };
@@ -313,6 +319,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D37E78526FCCBCC00B1614C /* RealmSwift in Frameworks */,
+				6D37E78326FCCBCC00B1614C /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -679,6 +687,10 @@
 			dependencies = (
 			);
 			name = "ITLab-IICall";
+			packageProductDependencies = (
+				6D37E78226FCCBCC00B1614C /* Realm */,
+				6D37E78426FCCBCC00B1614C /* RealmSwift */,
+			);
 			productName = "ITLab-IICall";
 			productReference = 6D37E74A26FCA39D00B1614C /* ITLab-IICall.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -737,7 +749,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					6D37E74926FCA39D00B1614C = {
 						CreatedOnToolsVersion = 13.0;
@@ -832,7 +844,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D37E78826FCCF5100B1614C /* UserPropertyView.swift in Sources */,
+				6D37E78626FCCD8700B1614C /* UserRealm.swift in Sources */,
+				6D37E78726FCCF3800B1614C /* UserView.swift in Sources */,
 				6D37E74D26FCA39D00B1614C /* CallDirectoryHandler.swift in Sources */,
+				6D37E78926FCCF5B00B1614C /* UserPropertyTypeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -989,11 +1005,10 @@
 		6D37E75326FCA39D00B1614C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 56;
 				DEVELOPMENT_TEAM = ZBVHAA67XK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ITLab-IICall/Info.plist";
@@ -1005,7 +1020,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ru.RTUITLab.ITLab.ITLab-IICall";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1018,11 +1033,10 @@
 		6D37E75426FCA39D00B1614C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 56;
 				DEVELOPMENT_TEAM = ZBVHAA67XK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ITLab-IICall/Info.plist";
@@ -1034,7 +1048,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ru.RTUITLab.ITLab.ITLab-IICall";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1362,6 +1376,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6D2D86092629DE5A00E98E0A /* XCRemoteSwiftPackageReference "ITLab-PushNotification-iOS" */;
 			productName = PushNotification;
+		};
+		6D37E78226FCCBCC00B1614C /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D72FC7426F8CAFD0090228E /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		6D37E78426FCCBCC00B1614C /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D72FC7426F8CAFD0090228E /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
 		};
 		6D5074242530F2BA00679B4C /* Down */ = {
 			isa = XCSwiftPackageProductDependency;

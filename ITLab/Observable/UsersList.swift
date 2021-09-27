@@ -53,8 +53,8 @@ final class UsersListObservable: ObservableObject {
                 return
             }
             
-            users.filter {$0.lastName != nil}.forEach {
-                self.users.append(UserRealm(user: $0))
+            self.users = users.filter {$0.lastName != nil}.map {
+                UserRealm(user: $0)
             }
             
             do {

@@ -90,7 +90,7 @@ extension UsersListPage {
                             }
 
                             if let phone = user.phoneNumber {
-                                Text(phone)
+                                Text(UserPage.phoneFormat(phone: phone))
                             }
                         }
                     }

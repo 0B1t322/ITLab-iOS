@@ -74,7 +74,7 @@ struct ProfilePage: View {
                                 .foregroundColor(.gray)
                                 .opacity(0.5)
                             
-                            Text(phone)
+                            Text(UserPage.phoneFormat(phone: phone))
                         }
                     }
                     
