@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import CallKit
 import UIKit
 
 struct UsersListPage: View {
@@ -42,7 +43,7 @@ struct UsersListPage: View {
                 .navigationViewStyle(StackNavigationViewStyle())
     }
     
-    func loadingData(callback: (() -> Void)? = nil) {
+    func loadingData(callback: (([UserRealm]) -> Void)? = nil) {
         usersList.loadData(callback: callback)
     }
 }
@@ -90,7 +91,7 @@ extension UsersListPage {
                             }
 
                             if let phone = user.phoneNumber {
-                                Text(phone)
+                                Text(UserPage.phoneFormat(phone: phone))
                             }
                         }
                     }

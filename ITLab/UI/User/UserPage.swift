@@ -84,20 +84,12 @@ struct UserPage: View {
                                 UIApplication.shared.open(URL(string: "tel://\(phoneRex)")!)
                             }
                         }, label: {
-                            Text(phone)
+                            Text(UserPage.phoneFormat(phone: phone))
                         })
                         
                         .contextMenu {
                             Button(action: {
-                                
-                                if let regex = try? NSRegularExpression(pattern: "[^0-9]") {
-                                    let phoneRex = regex.stringByReplacingMatches(in: phone,
-                                                                                  options: [],
-                                                                                  range: NSRange(0..<phone.utf8.count),
-                                                                                  withTemplate: "")
-                                    
-                                    UIApplication.shared.open(URL(string: "tel://\(phoneRex)")!)
-                                }
+                                    UIApplication.shared.open(URL(string: "tel://\(phone)")!)
                             }, label: {
                                 Text("Набрать номер")
                                 Image(systemName: "phone")
@@ -366,5 +358,24 @@ extension UserPage {
                 
             }
         }
+    }
+}
+
+extension UserPage {
+    static func phoneFormat(phone: String) -> String {
+        let mask = "+X (XXX) XXX-XX-XX"
+        var result = ""
+        var index = phone.startIndex
+
+        for char in mask where index < phone.endIndex {
+            if char == "X" {
+                result.append(phone[index])
+                index = phone.index(after: index)
+
+            } else {
+                result.append(char)
+            }
+        }
+        return result
     }
 }
