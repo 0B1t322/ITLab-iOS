@@ -96,14 +96,7 @@ struct EventsPage: View {
             .listStyle(GroupedListStyle())
             .navigationBarTitle("События", displayMode: .automatic)
             .navigationBarItems(leading: Button(action: {
-                eventsObject.isLoadingEvents = true
-                eventsObject.getEvents()
-                
-                if eventsObject.showOldEvent {
-                    eventsObject.oldEvents = []
-                    
-                    eventsObject.getOldEvents()
-                }
+                eventsObject.updateEvents()
             }, label: {
                 Image(systemName: "arrow.clockwise").padding([.top, .bottom, .trailing], 15)
             })

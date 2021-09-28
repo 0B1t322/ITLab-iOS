@@ -37,5 +37,31 @@ public struct UserView: Codable {
         case properties
     }
     
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        _id = try? container.decode(UUID.self, forKey: ._id)
+        firstName = try? container.decode(String.self, forKey: .firstName)
+        lastName = try? container.decode(String.self, forKey: .lastName)
+        middleName = try? container.decode(String.self, forKey: .middleName)
+        email = try? container.decode(String.self, forKey: .email)
+        properties = try? container.decode([UserPropertyView].self, forKey: .properties)
+
+        phoneNumber = try? container.decode(String.self, forKey: .phoneNumber)
+
+        if var phone = phoneNumber {
+            phone = phone.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+
+
+            if phone[phone.startIndex] != "7" && phone.count == 11 {
+                phone.replaceSubrange(...phone.startIndex, with: "7")
+            } else if phone.count == 10 {
+                phone.insert(contentsOf: "7", at: phone.startIndex)
+            }
+
+            phoneNumber = phone
+        }
+    }
+    
     public init() {}
 }

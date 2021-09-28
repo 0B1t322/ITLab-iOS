@@ -10,7 +10,7 @@ import PushNotification
 
 struct ProfilePage: View {
     
-    @Binding var user: UserView
+    @Binding var user: UserRealm
     
     @State private var showLogOutAlert: Bool = false
     
@@ -27,7 +27,7 @@ struct ProfilePage: View {
                             .padding(.horizontal, 3.0)
                             .opacity(0.5)
                         
-                        Text(user.lastName ?? "Фамилия")
+                        Text(user.lastName)
                         
                     }
                     .onTapGesture(count: 6) {
@@ -44,7 +44,7 @@ struct ProfilePage: View {
                             .padding(.horizontal, 3.0)
                             .opacity(0.5)
                         
-                        Text(user.firstName ?? "Имя")
+                        Text(user.firstName)
                     }
                     
                     if let middleName = user.middleName, !middleName.isEmpty {
@@ -74,11 +74,11 @@ struct ProfilePage: View {
                                 .foregroundColor(.gray)
                                 .opacity(0.5)
                             
-                            Text(phone)
+                            Text(UserPage.phoneFormat(phone: phone))
                         }
                     }
                     
-                    if let vkId = user.properties?.first(where: { (property) -> Bool in
+                    if let vkId = user.properties.first(where: { (property) -> Bool in
                         return property.userPropertyType?.title == "VKID"
                     })?.value {
                         HStack(alignment: .center) {
@@ -109,7 +109,7 @@ struct ProfilePage: View {
                         }
                     }
                     
-                    if let group = user.properties?.first(where: { (property) -> Bool in
+                    if let group = user.properties.first(where: { (property) -> Bool in
                         return property.userPropertyType?.title == "Учебная группа"
                     })?.value {
                         HStack(alignment: .center) {

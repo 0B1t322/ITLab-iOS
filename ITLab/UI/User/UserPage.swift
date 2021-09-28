@@ -9,7 +9,7 @@ import SwiftUI
 import Contacts
 
 struct UserPage: View {
-    @State var user: UserView
+    @State var user: UserRealm
     
     @State var contactAlert: Bool = false
     @State var isEnableButton: Bool = false
@@ -17,16 +17,16 @@ struct UserPage: View {
     var body: some View {
         List {
             Section(header: VStack(alignment: .leading) {
-                if let lastName = user.lastName {
-                    Text(lastName)
+                if !user.lastName.isEmpty {
+                    Text(user.lastName)
                         .foregroundColor(Color("user.title"))
                         .fontWeight(.bold)
                         .font(.title)
                         .textCase(.none)
                 }
                 
-                if let firstName = user.firstName {
-                    Text(firstName)
+                if !user.firstName.isEmpty {
+                    Text(user.firstName)
                         .foregroundColor(Color("user.title"))
                         .fontWeight(.bold)
                         .font(.title)
@@ -41,33 +41,31 @@ struct UserPage: View {
                         .textCase(.none)
                 }
             }) {
-                if let email = user.email {
-                    HStack(alignment: .center) {
-                        Image(systemName: "envelope.fill")
-                            .foregroundColor(.gray)
-                            .opacity(0.5)
-                        
-                        Button(action: {
-                            UIApplication.shared.open(URL(string: "mailto://compose?to=\(email)")!)
-                        }, label: {
-                            Text(email)
-                        })
+                HStack(alignment: .center) {
+                    Image(systemName: "envelope.fill")
+                        .foregroundColor(.gray)
+                        .opacity(0.5)
+                    
+                    Button(action: {
+                        UIApplication.shared.open(URL(string: "mailto://compose?to=\(user.email)")!)
+                    }, label: {
+                        Text(user.email)
+                    })
                         .contextMenu {
                             Button(action: {
-                                UIApplication.shared.open(URL(string: "mailto://compose?to=\(email)")!)
+                                UIApplication.shared.open(URL(string: "mailto://compose?to=\(user.email)")!)
                             }, label: {
                                 Text("Отправить письмо")
                                 Image(systemName: "square.and.pencil")
                             })
                             
                             Button(action: {
-                                UIPasteboard.general.string = email
+                                UIPasteboard.general.string = user.email
                             }, label: {
                                 Text("Копировать")
                                 Image(systemName: "doc.on.doc")
                             })
                         }
-                    }
                 }
                 
                 if let phone = user.phoneNumber {
@@ -86,20 +84,12 @@ struct UserPage: View {
                                 UIApplication.shared.open(URL(string: "tel://\(phoneRex)")!)
                             }
                         }, label: {
-                            Text(phone)
+                            Text(UserPage.phoneFormat(phone: phone))
                         })
                         
                         .contextMenu {
                             Button(action: {
-                                
-                                if let regex = try? NSRegularExpression(pattern: "[^0-9]") {
-                                    let phoneRex = regex.stringByReplacingMatches(in: phone,
-                                                                                  options: [],
-                                                                                  range: NSRange(0..<phone.utf8.count),
-                                                                                  withTemplate: "")
-                                    
-                                    UIApplication.shared.open(URL(string: "tel://\(phoneRex)")!)
-                                }
+                                    UIApplication.shared.open(URL(string: "tel://\(phone)")!)
                             }, label: {
                                 Text("Набрать номер")
                                 Image(systemName: "phone")
@@ -115,7 +105,7 @@ struct UserPage: View {
                     }
                 }
                 
-                if let vkId = user.properties?.first(where: { (property) -> Bool in
+                if let vkId = user.properties.first(where: { (property) -> Bool in
                     return property.userPropertyType?.title == "VKID"
                 })?.value {
                     HStack(alignment: .center) {
@@ -146,7 +136,7 @@ struct UserPage: View {
                     }
                 }
                 
-                if let group = user.properties?.first(where: { (property) -> Bool in
+                if let group = user.properties.first(where: { (property) -> Bool in
                     return property.userPropertyType?.title == "Учебная группа"
                 })?.value {
                     HStack(alignment: .center) {
@@ -176,20 +166,18 @@ struct UserPage: View {
             }, label: {
                 Text("Добавить в контакты")
             })
-            .alert(isPresented: $contactAlert) {
-                Alert(title: Text("Вы точно хотите добавить контакт?"),
-                      primaryButton: .cancel(Text("Нет")),
-                      secondaryButton: .default(Text("Да")) {
+                .alert(isPresented: $contactAlert) {
+                    Alert(title: Text("Вы точно хотите добавить контакт?"),
+                          primaryButton: .cancel(Text("Нет")),
+                          secondaryButton: .default(Text("Да")) {
                         let store = CNContactStore()
                         let contact = CNMutableContact()
                         
-                        contact.givenName = user.firstName ?? ""
-                        contact.familyName = user.lastName ?? ""
+                        contact.givenName = user.firstName
+                        contact.familyName = user.lastName
                         
-                        if let email = user.email {
-                            contact.emailAddresses.append(CNLabeledValue(label: "email",
-                                                                         value: NSString(string: email)))
-                        }
+                        contact.emailAddresses.append(CNLabeledValue(label: "email",
+                                                                     value: NSString(string: user.email)))
                         
                         if let phone = user.phoneNumber {
                             contact.phoneNumbers.append(CNLabeledValue(label: "мобильный",
@@ -200,9 +188,9 @@ struct UserPage: View {
                         saveRequest.add(contact, toContainerWithIdentifier: nil)
                         try? store.execute(saveRequest)
                         isEnableButton = true
-                      })
-            }
-            .disabled(self.isEnableButton)
+                    })
+                }
+                .disabled(self.isEnableButton)
             
         }
     }
@@ -211,7 +199,7 @@ struct UserPage: View {
 extension UserPage {
     
     struct EventStack: View {
-        @Binding var user: UserView
+        @Binding var user: UserRealm
         @State private var isLoading: Bool = true
         @State private var events: [UsersEventsView] = []
         
@@ -297,7 +285,7 @@ extension UserPage {
         
         func getEvents() {
             OAuthITLab.shared.getToken {
-                EventAPI.apiEventUserUserIdGet(userId: user._id!,
+                EventAPI.apiEventUserUserIdGet(userId: user.id,
                                                begin: fromDateEvent,
                                                end: beforeDateEvent) { (events, error) in
                     
@@ -315,7 +303,7 @@ extension UserPage {
     }
     
     struct EquipmentStack: View {
-        @Binding var user: UserView
+        @Binding var user: UserRealm
         @State private var isLoading: Bool = true
         @State private var equipments: [EquipmentView] = []
         
@@ -356,7 +344,7 @@ extension UserPage {
         func getEquimpment() {
             OAuthITLab.shared.getToken {
                 
-                EquipmentUserAPI.apiEquipmentUserUserIdGet(userId: user._id!) { (equipments, error) in
+                EquipmentUserAPI.apiEquipmentUserUserIdGet(userId: user.id) { (equipments, error) in
                     
                     if let error = error {
                         print(error)
@@ -370,5 +358,24 @@ extension UserPage {
                 
             }
         }
+    }
+}
+
+extension UserPage {
+    static func phoneFormat(phone: String) -> String {
+        let mask = "+X (XXX) XXX-XX-XX"
+        var result = ""
+        var index = phone.startIndex
+
+        for char in mask where index < phone.endIndex {
+            if char == "X" {
+                result.append(phone[index])
+                index = phone.index(after: index)
+
+            } else {
+                result.append(char)
+            }
+        }
+        return result
     }
 }
