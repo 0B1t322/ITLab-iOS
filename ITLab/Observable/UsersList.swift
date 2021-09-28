@@ -56,6 +56,8 @@ final class UsersListObservable: ObservableObject {
                                     if let error = $0 {
                                         print(error.localizedDescription)
                                     }
+                                    
+                                    print("Update call db")
                                 }
                         } catch let error {
                             print(error.localizedDescription)
@@ -64,7 +66,6 @@ final class UsersListObservable: ObservableObject {
                         break
                     }
                 }
-                
             }
             
         } catch {
@@ -158,7 +159,7 @@ final class UsersListObservable: ObservableObject {
 
 extension UsersListObservable {
     func saveCallData() throws {
-        let users = self.users.filter({$0.phoneNumber != nil})
+        let users = self.users.filter({$0.phoneNumber != nil}).filter { $0.phoneNumber!.count == 11 }
         
         if users.isEmpty {
             return

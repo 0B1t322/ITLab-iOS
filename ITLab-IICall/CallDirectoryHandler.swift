@@ -14,7 +14,9 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
     override func beginRequest(with context: CXCallDirectoryExtensionContext) {
         context.delegate = self
         
-        context.removeAllIdentificationEntries()
+        if context.isIncremental {
+            context.removeAllIdentificationEntries()
+        }
         
         addIdentificationPhoneNumbers(to: context)
         
@@ -22,7 +24,7 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
             print(result)
         }
     }
-    
+
     func addIdentificationPhoneNumbers(to context: CXCallDirectoryExtensionContext) {
         
         guard let realm = try? RealmService.getUserContactRealm() else { return }
@@ -40,5 +42,4 @@ extension CallDirectoryHandler: CXCallDirectoryExtensionContextDelegate {
     func requestFailed(for extensionContext: CXCallDirectoryExtensionContext, withError error: Error) {
         print(error)
     }
-    
 }
