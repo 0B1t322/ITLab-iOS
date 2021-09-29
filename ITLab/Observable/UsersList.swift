@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 import CallKit
+import PhoneNumberKit
 import RealmSwift
 
 final class UsersListObservable: ObservableObject {
@@ -159,7 +160,7 @@ final class UsersListObservable: ObservableObject {
 
 extension UsersListObservable {
     func saveCallData() throws {
-        let users = self.users.filter({$0.phoneNumber != nil}).filter { $0.phoneNumber!.count == 11 }
+        let users = self.users.filter({$0.phoneNumber != nil})
         
         if users.isEmpty {
             return
@@ -185,9 +186,12 @@ extension UsersListObservable {
         
         var result: [UsersPhoneRealm] = []
         var label: String = ""
+        let phoneChecker = PhoneNumberKit()
+
         for user in users {
             
-            if reapetPhone.contains(user.phoneNumber!) {
+            if reapetPhone.contains(user.phoneNumber!) &&
+                (try? phoneChecker.parse(user.phoneNumber!)) != nil {
                 continue
             }
             

@@ -20,6 +20,7 @@
 		6D37E75126FCA39D00B1614C /* ITLab-IICall.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6D37E74A26FCA39D00B1614C /* ITLab-IICall.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6D37E78326FCCBCC00B1614C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 6D37E78226FCCBCC00B1614C /* Realm */; };
 		6D37E78526FCCBCC00B1614C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6D37E78426FCCBCC00B1614C /* RealmSwift */; };
+		6D3890F72704908D00B912FE /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6D3890F62704908D00B912FE /* PhoneNumberKit */; };
 		6D3EC19A264EAA2100DE67D3 /* ColorPaletterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC199264EAA2100DE67D3 /* ColorPaletterView.swift */; };
 		6D3EC19F264EAA9900DE67D3 /* ColorPaletteObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC19E264EAA9900DE67D3 /* ColorPaletteObservable.swift */; };
 		6D3EC1A2264EADE600DE67D3 /* EventsObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3EC1A1264EADE600DE67D3 /* EventsObservable.swift */; };
@@ -332,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D72FC7626F8CAFD0090228E /* Realm in Frameworks */,
+				6D3890F72704908D00B912FE /* PhoneNumberKit in Frameworks */,
 				6D5074252530F2BA00679B4C /* Down in Frameworks */,
 				6D72FC7826F8CAFD0090228E /* RealmSwift in Frameworks */,
 				6DDD8223252E0726008CE80A /* Alamofire in Frameworks */,
@@ -733,6 +735,7 @@
 				6D2AD5EA2660218B009FD4A9 /* Siren */,
 				6D72FC7526F8CAFD0090228E /* Realm */,
 				6D72FC7726F8CAFD0090228E /* RealmSwift */,
+				6D3890F62704908D00B912FE /* PhoneNumberKit */,
 			);
 			productName = ITLab;
 			productReference = 6D9A0C612518EBAA007796CD /* ITLab.app */;
@@ -793,6 +796,7 @@
 				6D2D86092629DE5A00E98E0A /* XCRemoteSwiftPackageReference "ITLab-PushNotification-iOS" */,
 				6D2AD5E92660218B009FD4A9 /* XCRemoteSwiftPackageReference "Siren" */,
 				6D72FC7426F8CAFD0090228E /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+				6D3890F52704908D00B912FE /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
 			);
 			productRefGroup = 6D9A0C622518EBAA007796CD /* Products */;
 			projectDirPath = "";
@@ -1346,6 +1350,14 @@
 				minimumVersion = 0.1.0;
 			};
 		};
+		6D3890F52704908D00B912FE /* XCRemoteSwiftPackageReference "PhoneNumberKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/PhoneNumberKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		6D5074232530F2BA00679B4C /* XCRemoteSwiftPackageReference "Down" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/iwasrobbed/Down";
@@ -1400,6 +1412,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6D72FC7426F8CAFD0090228E /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;
+		};
+		6D3890F62704908D00B912FE /* PhoneNumberKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D3890F52704908D00B912FE /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = PhoneNumberKit;
 		};
 		6D5074242530F2BA00679B4C /* Down */ = {
 			isa = XCSwiftPackageProductDependency;
