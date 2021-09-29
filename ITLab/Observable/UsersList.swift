@@ -41,32 +41,33 @@ final class UsersListObservable: ObservableObject {
                 
                 CXCallDirectoryManager.sharedInstance
                     .getEnabledStatusForExtension(withIdentifier: "ru.RTUITLab.ITLab.ITLab-IICall") { status, error in
-                    
-                    if let error = error {
-                        print(error.localizedDescription)
-                        return
-                    }
-
-                    switch status {
-                    case .enabled:
-                        do {
-                            try self.saveCallData()
-                            
-                            CXCallDirectoryManager.sharedInstance
-                                .reloadExtension(withIdentifier: "ru.RTUITLab.ITLab.ITLab-IICall") {
-                                    if let error = $0 {
-                                        print(error.localizedDescription)
-                                    }
-                                    
-                                    print("Update call db")
-                                }
-                        } catch let error {
+                        
+                        if let error = error {
                             print(error.localizedDescription)
+                            return
                         }
-                    default:
-                        break
+                        
+                        switch status {
+                        case .enabled:
+                            do {
+                                try self.saveCallData()
+                                
+                                CXCallDirectoryManager.sharedInstance
+                                    .reloadExtension(withIdentifier: "ru.RTUITLab.ITLab.ITLab-IICall") {
+                                        if let error = $0 {
+                                            print(error.localizedDescription)
+                                            return
+                                        }
+                                        
+                                        print("Update call db")
+                                    }
+                            } catch let error {
+                                print(error.localizedDescription)
+                            }
+                        default:
+                            break
+                        }
                     }
-                }
             }
             
         } catch {
@@ -187,7 +188,7 @@ extension UsersListObservable {
         var result: [UsersPhoneRealm] = []
         var label: String = ""
         let phoneChecker = PhoneNumberKit()
-
+        
         for user in users {
             
             if reapetPhone.contains(user.phoneNumber!) &&
@@ -199,13 +200,18 @@ extension UsersListObservable {
                 $0.phoneNumber! == user.phoneNumber!
             })
             
+            if let middleName = user.middleName,
+               !middleName.isEmpty {
+                label = "\(user.lastName) \(user.firstName) \(middleName)"
+            } else {
+                label = "\(user.lastName) \(user.firstName)"
+            }
+            
             if reapetUser.count > 1 {
                 
                 reapetPhone.append(user.phoneNumber!)
                 
-                label = "\(user.lastName) \(user.firstName) \(user.middleName ?? "") и еще \(declensionContacts(reapetUser.count - 1))"
-            } else {
-                label = "\(user.lastName) \(user.firstName) \(user.middleName ?? "")"
+                label += " и еще \(declensionContacts(reapetUser.count - 1))"
             }
             
             result.append(UsersPhoneRealm(label: label, phone: CXCallDirectoryPhoneNumber(user.phoneNumber!)!))
