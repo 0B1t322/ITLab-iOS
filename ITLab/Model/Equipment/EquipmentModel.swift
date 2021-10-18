@@ -47,30 +47,4 @@ struct EquipmentModel: Codable {
         self.number = 0
         self.equipmentType = EquipmentTypeModel()
     }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        id = try container.decode(String.self, forKey: .id)
-        serialNumber = try container.decode(String.self, forKey: .serialNumber)
-        description = try? container.decode(String.self, forKey: .description)
-        number = try container.decode(Int.self, forKey: .number)
-        equipmentTypeId = try container.decode(String.self, forKey: .equipmentTypeId)
-        equipmentType = try container.decode(EquipmentTypeModel.self, forKey: .equipmentType)
-        ownerId = try? container.decode(String.self, forKey: .ownerId)
-        parentId = try? container.decode(String.self, forKey: .parentId)
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        try container.encode(id, forKey: .id)
-        try container.encode(serialNumber, forKey: .serialNumber)
-        try container.encode(description, forKey: .description)
-        try container.encode(number, forKey: .number)
-        try container.encode(equipmentTypeId, forKey: .equipmentTypeId)
-        try container.encode(equipmentType, forKey: .equipmentType)
-        try container.encode(ownerId, forKey: .ownerId)
-        try container.encode(parentId, forKey: .parentId)
-    }
 }
