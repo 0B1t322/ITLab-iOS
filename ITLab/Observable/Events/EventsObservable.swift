@@ -31,10 +31,23 @@ final class EventsObservable: ObservableObject {
         isEditingRight = OAuthITLab.shared.getUserInfo()?.getRole("CanEditEvent") ?? false
     }
     
-    func getEvents() {
-        if self.events.isEmpty {
-            self.isLoadingEvents = true
+    func updateEvents() {
+        self.events = []
+        self.oldEvents = []
+        
+        getEvents()
+        
+        if showOldEvent {
+            getOldEvents()
         }
+    }
+    
+    func getEvents() {
+        if !self.events.isEmpty {
+            return
+        }
+        
+        self.isLoadingEvents = true
         
         let date = Date()
         var dateComponents = DateComponents()
@@ -83,6 +96,11 @@ final class EventsObservable: ObservableObject {
     }
     
     func getOldEvents() {
+        
+        if !self.oldEvents.isEmpty {
+            return
+        }
+        
         self.isLoadingOldEvents = true
         
         let date = Date()

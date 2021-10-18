@@ -7,14 +7,19 @@
 
 import SwiftUI
 import PushNotification
+import RealmSwift
 
 struct MainMenu: View {
     
     var eventPage = EventsPage()
     var usersPage = UsersListPage()
     var projectsPage = ProjectsMenuPage()
+<<<<<<< HEAD
     @State var user: UserView = UserView()
     var equipmentPage = EquipmentPage()
+=======
+    @State var user: UserRealm = UserRealm()
+>>>>>>> 0e1354ff56e780def03c26189816a3eb3d683be5
     
     var body: some View {
         TabView {
@@ -63,13 +68,17 @@ struct MainMenu: View {
             OAuthITLab.shared.getToken { token in
                 activateNotify(user: token)
                 
-                usersPage.loadingData()
+                usersPage.loadingData { users in
+                        if let profile = users.filter({
+                            $0.id == OAuthITLab.shared.getUserInfo()?.userId
+                        })
+                            .first {
+                            user = profile
+                        }
+                }
+                
                 eventPage.loadingData()
                 projectsPage.reportsObject.getReports()
-                
-                if let profile = OAuthITLab.shared.getUserInfo()?.profile {
-                    user = profile
-                }
             }
             
             Contact.requestAccess()
