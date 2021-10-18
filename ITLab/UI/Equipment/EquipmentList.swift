@@ -51,7 +51,12 @@ struct EquipmentList: View {
                                    alignment: .center)
                     }
                 } else {
-                    EquipmentListHeader()
+                    HStack {
+                        Text("Тип")
+                        Spacer()
+                        Text("Номер")
+                        Spacer()
+                    }
                     ForEach(
                         self.equipmentObject.equipmentModel.filter {
                         equipment in
@@ -69,18 +74,6 @@ struct EquipmentList: View {
             }.listStyle(
                 GroupedListStyle()
             )
-        }
-        
-    }
-}
-
-struct EquipmentListHeader: View {
-    var body: some View {
-        HStack {
-            Text("Тип")
-            Spacer()
-            Text("Номер")
-            Spacer()
         }
         
     }
