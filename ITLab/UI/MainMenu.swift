@@ -96,8 +96,7 @@ struct MainMenu: View {
     }
 }
 
-
-struct MainMenuView_Provider: PreviewProvider {
+struct MainMenuViewProvider: PreviewProvider {
     static var previews: some View {
         MainMenu()
     }

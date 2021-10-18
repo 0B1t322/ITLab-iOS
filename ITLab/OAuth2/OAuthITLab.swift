@@ -130,7 +130,7 @@ extension OAuthITLab {
             codeChallengeMethod: "S256",
             codeVerifier: codeVerifier) { result in
             switch result {
-            case .success(_):
+            case .success:
                 self.saveState()
                 self.getUserInfoReq {
                     _ = self.isAuthorizeCheck()

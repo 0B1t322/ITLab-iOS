@@ -10,7 +10,7 @@ import SwiftUI
 
 final class UserObservable: ObservableObject {
     @Published var isLoading: Bool = false
-    @Published var user: UserView? = nil
+    @Published var user: UserView?
     
     #if targetEnvironment(simulator)
     func getUser(userId: String) {

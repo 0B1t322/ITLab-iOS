@@ -8,7 +8,7 @@
 import Foundation
 
 final class EquipmentObservable: ObservableObject {
-    @Published var equipment: EquipmentModel? = nil
+    @Published var equipment: EquipmentModel?
     
     #if targetEnvironment(simulator)
     func createEquipment() {

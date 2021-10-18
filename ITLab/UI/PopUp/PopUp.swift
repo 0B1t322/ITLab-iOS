@@ -5,7 +5,6 @@
 //  Created by Даниил on 13.07.2021.
 //
 
-
 // reference code https://github.com/V8tr/PopupSwiftUI/blob/main/PopupSwiftUI/Popup.swift
 
 import SwiftUI
@@ -111,4 +110,3 @@ private extension View {
         }
     }
 }
-

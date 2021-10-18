@@ -100,7 +100,17 @@ struct ShowFullEquipmentInfo: View {
 struct EquipmentItem_Previews: PreviewProvider {
     static var previews: some View {
         EquipmentItem(
-            equipment: EquipmentModel(id: "some_id", serialNumber: "some_serial_number", number: 0, equipmentTypeId: "some_elementtypeid", equipmentType: EquipmentTypeModel(id: "some_id", title: "some_title", description: "some_description", shortTitle: "some_short_title"))
+            equipment: EquipmentModel(
+                id: "some_id",
+                serialNumber: "some_serial_number",
+                number: 0,
+                equipmentTypeId: "some_elementtypeid",
+                equipmentType: EquipmentTypeModel(
+                    id: "some_id",
+                    title: "some_title",
+                    description: "some_description",
+                    shortTitle: "some_short_title")
+            )
         )
     }
 }
@@ -108,14 +118,46 @@ struct EquipmentItem_Previews: PreviewProvider {
 struct EquipmentShowFull_Previews: PreviewProvider {
     static var previews: some View {
         let user = UserObservable()
-        user.user = UserView(_id: UUID(), firstName: "Даниил", lastName: "Демин", middleName: nil, phoneNumber: nil, email: "name.lastname@example.com", properties: nil)
-        return ShowFullEquipmentInfo(equipment: EquipmentModel(id: "some_id", serialNumber: "some_serial_number", number: 0, equipmentTypeId: "some_elementtypeid", equipmentType: EquipmentTypeModel(id: "some_id", title: "some_title", description: "some_description", shortTitle: "some_short_title")))
-                .environmentObject(user)
+        user.user = UserView(
+            _id: UUID(),
+            firstName: "Даниил",
+            lastName: "Демин",
+            middleName: nil,
+            phoneNumber: nil,
+            email: "name.lastname@example.com",
+            properties: nil
+        )
+        return ShowFullEquipmentInfo(
+            equipment: EquipmentModel(
+                id: "some_id",
+                serialNumber: "some_serial_number",
+                number: 0,
+                equipmentTypeId: "some_elementtypeid",
+                equipmentType: EquipmentTypeModel(
+                    id: "some_id",
+                    title: "some_title",
+                    description: "some_description",
+                    shortTitle: "some_short_title")
+            )
+        ).environmentObject(user)
     }
 }
 
-struct EquipmentShowFull_Fullmode_Previews: PreviewProvider {
+struct EquipmentShowFullFullmode_Previews: PreviewProvider {
     static var previews: some View {
-        ShowFullEquipmentInfo(fullMode: true, equipment: EquipmentModel(id: "some_id", serialNumber: "some_serial_number", number: 0, equipmentTypeId: "some_elementtypeid", equipmentType: EquipmentTypeModel(id: "some_id", title: "some_title", description: "some_description", shortTitle: "some_short_title"))).environmentObject(UserObservable())
+        ShowFullEquipmentInfo(
+            fullMode: true,
+            equipment: EquipmentModel(
+                id: "some_id",
+                serialNumber: "some_serial_number",
+                number: 0,
+                equipmentTypeId: "some_elementtypeid",
+                equipmentType: EquipmentTypeModel(
+                    id: "some_id",
+                    title: "some_title",
+                    description: "some_description",
+                    shortTitle: "some_short_title")
+            )
+        ).environmentObject(UserObservable())
     }
 }

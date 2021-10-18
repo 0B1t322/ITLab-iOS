@@ -15,25 +15,25 @@ struct EquipmentScanView: View {
     
     var body: some View {
             VStack {
-                CBScanner (
+                CBScanner(
                     supportBarcode: .constant([.qr, .code128]),
                     torchLightIsOn: $flashIsOn,
                     scanInterval: .constant(5)
-                ) {result in
-                    //TODO: Rewrite
+                ) {_ in
+                    // TODO: Rewrite
                     self.equipmentsObservable.match = "mock_serial_number"
                     
                     showingModal = true
                 } onDraw: {
                     let lineWidth = CGFloat(2)
-                    //line color
+                    // line color
                     let lineColor = UIColor.yellow
 
-                    //Fill color with opacity
-                    //You also can use UIColor.clear if you don't want to draw fill color
+                    // Fill color with opacity
+                    // You also can use UIColor.clear if you don't want to draw fill color
                     let fillColor = UIColor(red: 0, green: 1, blue: 0.2, alpha: 0.4)
                     
-                    //Draw box
+                    // Draw box
                     $0.draw(lineWidth: lineWidth, lineColor: lineColor, fillColor: fillColor)
                 }
             

@@ -14,7 +14,6 @@ final class EquipmentsObservable: ObservableObject {
     @Published var onlyFree: Bool = false
     @Published var match: String = ""
     
-    
     #if targetEnvironment(simulator)
     func getEquipment() {
         equipmentModel = []
@@ -24,18 +23,18 @@ final class EquipmentsObservable: ObservableObject {
         }
         
         if self.match == "mock_serial_number" {
-            let i = 1
+            let index = 1
             equipmentModel.append(
                 EquipmentModel(
-                    id: "mock_id_\(i)",
-                    serialNumber: "mock_serial_number_\(i)",
-                    number: i,
-                    equipmentTypeId: "mock_equipment_type_id_\(i)",
+                    id: "mock_id_\(index)",
+                    serialNumber: "mock_serial_number_\(index)",
+                    number: index,
+                    equipmentTypeId: "mock_equipment_type_id_\(index)",
                     equipmentType: EquipmentTypeModel(
-                        id: "mock_id_\(i)",
-                        title: "mock_title_\(i)",
-                        description: "mock_description_\(i)",
-                        shortTitle: "mock_short_title_\(i)"
+                        id: "mock_id_\(index)",
+                        title: "mock_title_\(index)",
+                        description: "mock_description_\(index)",
+                        shortTitle: "mock_short_title_\(index)"
                         )
                     )
                 )
@@ -43,18 +42,18 @@ final class EquipmentsObservable: ObservableObject {
         } else if self.match == "mock_serial_number_404" {
             
         } else {
-            for i in 1...20 {
+            for index in 1...20 {
                 equipmentModel.append(
                     EquipmentModel(
-                        id: "mock_id_\(i)",
-                        serialNumber: "mock_serial_number_\(i)",
-                        number: i,
-                        equipmentTypeId: "mock_equipment_type_id_\(i)",
+                        id: "mock_id_\(index)",
+                        serialNumber: "mock_serial_number_\(index)",
+                        number: index,
+                        equipmentTypeId: "mock_equipment_type_id_\(index)",
                         equipmentType: EquipmentTypeModel(
-                            id: "mock_id_\(i)",
-                            title: "mock_title_\(i)",
-                            description: "mock_description_\(i)",
-                            shortTitle: "mock_short_title_\(i)"
+                            id: "mock_id_\(index)",
+                            title: "mock_title_\(index)",
+                            description: "mock_description_\(index)",
+                            shortTitle: "mock_short_title_\(index)"
                         )
                     )
                 )

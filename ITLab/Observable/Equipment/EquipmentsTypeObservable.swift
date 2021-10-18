@@ -12,9 +12,9 @@ class EquipmentsTypeObservable: ObservableObject {
     
     #if targetEnvironment(simulator)
     func getEquipmentType() {
-        for i in 1...20 {
+        for index in 1...20 {
             self.equipmentsType.append(
-                EquipmentTypeModel(id: "mock_id_\(i)", title: "mock_title_\(i)", description: "mock_description_\(i)")
+                EquipmentTypeModel(id: "mock_id_\(index)", title: "mock_title_\(index)", description: "mock_description_\(index)")
             )
         }
     }

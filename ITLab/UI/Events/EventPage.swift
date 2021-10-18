@@ -176,7 +176,7 @@ struct EventPage: View {
                                             let result = ITLabCalendar.shared.createEvent(event: event)
                                             DispatchQueue.main.async {
                                                 switch result {
-                                                case .success():
+                                                case .success:
                                                     alertMode = .success
                                                 case .failure(let error):
                                                     alertFailedMessage = error.localizedDescription

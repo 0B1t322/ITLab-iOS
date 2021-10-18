@@ -8,7 +8,7 @@
 import Foundation
 
 class EquipmentTypeObservable: ObservableObject {
-    @Published var equipmentType: EquipmentTypeModel? = nil
+    @Published var equipmentType: EquipmentTypeModel?
     
     /// Возврашает EquipmentTypeID
     #if targetEnvironment(simulator)
