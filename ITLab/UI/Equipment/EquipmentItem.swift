@@ -9,15 +9,19 @@ import SwiftUI
 
 struct EquipmentItem: View {
     @State private var showFull = false
-    var equipment: EquipmentModel
+    var equipment: CompactEquipmentView
     @ObservedObject private var userObserved = UserObservable()
     
     var body: some View {
         VStack(spacing: 20) {
             HStack {
-                Text(equipment.equipmentType.title)
-                Spacer(minLength: 20)
-                Text("\(equipment.number)")
+                Text(equipment.equipmentType?.title ?? "")
+                    .padding(.horizontal)
+                    .frame(width: 200, height: 20, alignment: .center)
+                Spacer()
+                Text("\(equipment.number ?? 0)")
+                    .padding(.horizontal)
+                    .frame(width: 100, height: 20, alignment: .center)
                 Spacer()
                 Button(
                     action: {
@@ -26,11 +30,12 @@ struct EquipmentItem: View {
                     },
                     label: {
                         Image(systemName: "info.circle")
+                            .frame(width: 10, height: 10, alignment: .center)
                     }
                 )
             }
             if showFull {
-                ShowFullEquipmentInfo(equipment: equipment)
+                ShowFullEquipmentInfo(fullMode: true,equipment: equipment)
                     .environmentObject(userObserved)
             }
         }
@@ -50,29 +55,32 @@ private struct EquipmentInfoTextModifier: ViewModifier {
             .multilineTextAlignment(.center)
             .lineLimit(nil)
             .padding(.vertical)
+            .frame(alignment: .center)
     }
 }
 
 struct ShowFullEquipmentInfo: View {
     @EnvironmentObject var userObserved: UserObservable
     var fullMode: Bool = false
-    var equipment: EquipmentModel
+    var equipment: CompactEquipmentView
     var body: some View {
         VStack(alignment: .leading) {
             if fullMode {
                 HStack {
                     Text("Тип:")
                         .padding(.horizontal)
+                        .frame(width: 180.0, height: 20.0, alignment: .center)
                     Spacer()
-                    Text("\(equipment.equipmentType.title)")
+                    Text("\(equipment.equipmentType?.title ?? "")")
                         .modifier(EquipmentInfoTextModifier())
                     Spacer()
                 }
                 HStack {
                     Text("Номер:")
                         .padding(.horizontal)
+                        .frame(width: 180.0, height: 20.0, alignment: .center)
                     Spacer()
-                    Text("\(equipment.number)")
+                    Text("\(equipment.number ?? 0)")
                         .modifier(EquipmentInfoTextModifier())
                     Spacer()
                 }
@@ -80,6 +88,7 @@ struct ShowFullEquipmentInfo: View {
             HStack {
                 Text("Владелец:")
                     .padding(.horizontal)
+                    .frame(width: 180.0, height: 20.0, alignment: .center)
                 Spacer()
                 Text("\(self.userObserved.getFullNameWithEmail() ?? "Лаборатория")")
                     .modifier(EquipmentInfoTextModifier())
@@ -87,9 +96,10 @@ struct ShowFullEquipmentInfo: View {
             }
             HStack {
                 Text("Серийный номер: ")
-                    .padding(.leading)
+                    .padding(.horizontal)
+                    .frame(width: 180.0, height: 20.0, alignment: .center)
                 Spacer()
-                Text("\(self.equipment.serialNumber)")
+                Text("\(self.equipment.serialNumber ?? "")")
                     .modifier(EquipmentInfoTextModifier())
                 Spacer()
             }
@@ -100,16 +110,22 @@ struct ShowFullEquipmentInfo: View {
 struct EquipmentItem_Previews: PreviewProvider {
     static var previews: some View {
         EquipmentItem(
-            equipment: EquipmentModel(
-                id: "some_id",
-                serialNumber: "some_serial_number",
+            equipment: CompactEquipmentView.init(
+                _id: UUID.init(),
+                serialNumber: "mock_serial_number",
+                _description: "mock_desc",
                 number: 0,
-                equipmentTypeId: "some_elementtypeid",
-                equipmentType: EquipmentTypeModel(
-                    id: "some_id",
-                    title: "some_title",
-                    description: "some_description",
-                    shortTitle: "some_short_title")
+                equipmentTypeId: UUID.init(),
+                equipmentType: CompactEquipmentTypeView.init(
+                    _id: UUID.init(),
+                    title: "mock_tittle",
+                    shortTitle: "short_tittle",
+                    _description: "short_desc",
+                    rootId: UUID.init(),
+                    parentId: UUID.init()
+                ),
+                ownerId: UUID.init(),
+                parentId: UUID.init()
             )
         )
     }
@@ -128,16 +144,22 @@ struct EquipmentShowFull_Previews: PreviewProvider {
             properties: nil
         )
         return ShowFullEquipmentInfo(
-            equipment: EquipmentModel(
-                id: "some_id",
-                serialNumber: "some_serial_number",
+            equipment: CompactEquipmentView.init(
+                _id: UUID.init(),
+                serialNumber: "mock_serial_number",
+                _description: "mock_desc",
                 number: 0,
-                equipmentTypeId: "some_elementtypeid",
-                equipmentType: EquipmentTypeModel(
-                    id: "some_id",
-                    title: "some_title",
-                    description: "some_description",
-                    shortTitle: "some_short_title")
+                equipmentTypeId: UUID.init(),
+                equipmentType: CompactEquipmentTypeView.init(
+                    _id: UUID.init(),
+                    title: "mock_tittle",
+                    shortTitle: "short_tittle",
+                    _description: "short_desc",
+                    rootId: UUID.init(),
+                    parentId: UUID.init()
+                ),
+                ownerId: UUID.init(),
+                parentId: UUID.init()
             )
         ).environmentObject(user)
     }
@@ -147,16 +169,22 @@ struct EquipmentShowFullFullmode_Previews: PreviewProvider {
     static var previews: some View {
         ShowFullEquipmentInfo(
             fullMode: true,
-            equipment: EquipmentModel(
-                id: "some_id",
-                serialNumber: "some_serial_number",
+            equipment: CompactEquipmentView.init(
+                _id: UUID.init(),
+                serialNumber: "mock_serial_number",
+                _description: "mock_desc",
                 number: 0,
-                equipmentTypeId: "some_elementtypeid",
-                equipmentType: EquipmentTypeModel(
-                    id: "some_id",
-                    title: "some_title",
-                    description: "some_description",
-                    shortTitle: "some_short_title")
+                equipmentTypeId: UUID.init(),
+                equipmentType: CompactEquipmentTypeView.init(
+                    _id: UUID.init(),
+                    title: "mock_tittle",
+                    shortTitle: "short_tittle",
+                    _description: "short_desc",
+                    rootId: UUID.init(),
+                    parentId: UUID.init()
+                ),
+                ownerId: UUID.init(),
+                parentId: UUID.init()
             )
         ).environmentObject(UserObservable())
     }

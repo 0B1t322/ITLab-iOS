@@ -8,19 +8,15 @@
 import Foundation
 
 class EquipmentsTypeObservable: ObservableObject {
-    @Published var equipmentsType: [EquipmentTypeModel] = []
+    @Published var equipmentsType: [CompactEquipmentTypeView] = []
     
-    #if targetEnvironment(simulator)
     func getEquipmentType() {
-        for index in 1...20 {
-            self.equipmentsType.append(
-                EquipmentTypeModel(id: "mock_id_\(index)", title: "mock_title_\(index)", description: "mock_description_\(index)")
-            )
+        EquipmentTypeAPI.apiEquipmentTypeGet { (equipmentsType, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            self.equipmentsType = equipmentsType ?? []
         }
     }
-    #else
-    func getEquipmentType() {
-    // Some api styff
-    }
-    #endif
 }

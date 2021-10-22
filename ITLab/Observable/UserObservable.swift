@@ -12,25 +12,16 @@ final class UserObservable: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var user: UserView?
     
-    #if targetEnvironment(simulator)
-    func getUser(userId: String) {
-        if userId == "some_user_id_1" {
-            self.user = UserView(
-                _id: UUID(),
-                firstName: "UserName",
-                lastName: "LastName",
-                middleName: nil,
-                phoneNumber: nil,
-                email: "some_email",
-                properties: nil
-            )
+    func getUser(userId: UUID) {
+        UserAPI.apiUserIdGet(_id: userId) { (user, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            self.user = user ?? nil
         }
     }
-    #else
-    func getUser(userId: String) {
-        // Api stuff
-    }
-    #endif
     
     func getFullName() -> String? {
         if let firstName = user?.firstName, let lastName = user?.lastName {

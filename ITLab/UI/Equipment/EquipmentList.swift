@@ -53,19 +53,26 @@ struct EquipmentList: View {
                 } else {
                     HStack {
                         Text("Тип")
+                            .padding(.horizontal)
+                            .frame(width: 200.0, height: 20.0, alignment: .center)
                         Spacer()
                         Text("Номер")
+                            .padding(.horizontal)
+                            .frame(width: 100.0, height: 20.0, alignment: .center)
                         Spacer()
+                        Spacer()
+                            .frame(width: 10, height: 10, alignment: .center)
                     }
                     ForEach(
                         self.equipmentObject.equipmentModel.filter {
                         equipment in
                         return (
-                            self.equipmentObject.onlyFree ? equipment.ownerId == nil : true &&
-                                self.equipmentObject.match.isEmpty ? true : "\(equipment.serialNumber) \(equipment.equipmentType.title) \(equipment.equipmentType.shortTitle ?? "" )".lowercased().contains(self.equipmentObject.match.lowercased())
+                            self.equipmentObject.onlyFree ?
+                                equipment.ownerId == nil : true &&
+                                self.equipmentObject.match.isEmpty ? true : "\(String(describing: equipment.serialNumber)) \(equipment.equipmentType?.title) \(equipment.equipmentType?.shortTitle ?? "" )".lowercased().contains(self.equipmentObject.match.lowercased())
                             )
                         },
-                        id: \.id
+                        id: \._id
                     ) {
                         equip in
                         EquipmentItem(equipment: equip)
@@ -73,7 +80,11 @@ struct EquipmentList: View {
                 }
             }.listStyle(
                 GroupedListStyle()
-            )
+            ).onAppear {
+                if equipmentObject.equipmentModel.isEmpty {
+                    equipmentObject.getEquipment()
+                }
+            }
         }
         
     }
@@ -101,7 +112,42 @@ struct EquipmentList_Previews: PreviewProvider {
     static var previews: some View {
         var equipmentObservable = EquipmentsObservable()
         let view = EquipmentList()
-        equipmentObservable.getEquipment()
+        equipmentObservable.equipmentModel = [
+            CompactEquipmentView.init(
+                _id: UUID.init(),
+                serialNumber: "13123123",
+                _description: "desc",
+                number: 0,
+                equipmentTypeId: UUID.init(),
+                equipmentType: CompactEquipmentTypeView.init(
+                    _id: UUID.init(),
+                    title: "RTX Nvdia 4090",
+                    shortTitle: "",
+                    _description: "powerful GPU",
+                    rootId: nil,
+                    parentId: nil
+                ),
+                ownerId: nil,
+                parentId: nil
+            ),
+            CompactEquipmentView.init(
+                _id: UUID.init(),
+                serialNumber: "13123123",
+                _description: "desc",
+                number: 0,
+                equipmentTypeId: UUID.init(),
+                equipmentType: CompactEquipmentTypeView.init(
+                    _id: UUID.init(),
+                    title: "Macbook air early 2019 long long long long long",
+                    shortTitle: "",
+                    _description: "powerful GPU",
+                    rootId: nil,
+                    parentId: nil
+                ),
+                ownerId: nil,
+                parentId: nil
+            )
+        ]
         return view
             .environmentObject(equipmentObservable)
     }

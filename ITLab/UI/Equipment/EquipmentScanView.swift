@@ -75,7 +75,7 @@ struct EquipmentScanView: View {
         }
     }
     
-    private func getUser(equip: EquipmentModel) -> UserObservable {
+    private func getUser(equip: CompactEquipmentView) -> UserObservable {
         let user = UserObservable()
         if let ownerId = equip.ownerId {
             user.getUser(userId: ownerId)
@@ -83,7 +83,7 @@ struct EquipmentScanView: View {
         return user
     }
     
-    private func findEquipmentBySerialNumber() throws -> EquipmentModel {
+    private func findEquipmentBySerialNumber() throws -> CompactEquipmentView {
         self.equipmentsObservable.getEquipment()
         if self.equipmentsObservable.equipmentModel.count == 1 {
             return equipmentsObservable.equipmentModel[0]

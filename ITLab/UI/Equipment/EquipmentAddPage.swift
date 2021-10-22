@@ -45,7 +45,6 @@ struct EquipmentAddPage: View {
                         
                         let equipmentTypeID = equipmentType.createType()
                         
-                        equipmentObserved.equipment = EquipmentModel(serialNumber: serialNumber, equipmentTypeID: equipmentTypeID)
                         equipmentObserved.createEquipment()
                         self.presentationMode.wrappedValue.dismiss()
                     },
@@ -66,7 +65,7 @@ struct EquipmentTypePicker: View {
     @ObservedObject var equipmentsType: EquipmentsTypeObservable = EquipmentsTypeObservable()
     @State var isAddingType: Bool = false
     @State var selectedTypeIndex: Int = 0
-    @State var addedType: EquipmentTypeModel = EquipmentTypeModel(id: "", title: "", description: "")
+    
     
     var body: some View {
         VStack {
@@ -74,11 +73,11 @@ struct EquipmentTypePicker: View {
                 Text("Выберите тип")
                 Picker(
                     selection: $selectedTypeIndex.onChange(onIndexChange),
-                    label: Text("\(selectedTypeIndex == -1 ? "Добавить тип" : equipmentsType.equipmentsType[selectedTypeIndex].title)"),
+                    label: Text("\((selectedTypeIndex == -1 ? "Добавить тип" : equipmentsType.equipmentsType[selectedTypeIndex].title) ?? "s")"),
                     content: {
                         ForEach(equipmentsType.equipmentsType.indices, id: \.self) {
                             (index: Int) in
-                            Text(equipmentsType.equipmentsType[index].title)
+                            Text(equipmentsType.equipmentsType[index].title ?? "s")
                         }
                         Text("Добавить тип").tag(-1)
                     }
@@ -90,13 +89,13 @@ struct EquipmentTypePicker: View {
                     HStack {
                         Text("Название")
                         Spacer()
-                        TextField("Введите название", text: self.$addedType.title)
+//                        TextField("Введите название", text: self.$addedType.title)
                         Spacer()
                     }
                     HStack {
                         Text("Описание")
                         Spacer()
-                        TextField("Введите описание", text: self.$addedType.description)
+//                        TextField("Введите описание", text: self.$addedType.description)
                     }
                 }
             }
@@ -119,9 +118,9 @@ struct EquipmentTypePicker: View {
         let equipmentType = EquipmentTypeObservable()
         
         if self.isAddingType {
-            equipmentType.equipmentType = addedType
+//            equipmentType.equipmentType = addedType
         } else {
-            equipmentType.equipmentType = self.equipmentsType.equipmentsType[selectedTypeIndex]
+//            equipmentType.equipmentType = self.equipmentsType.equipmentsType[selectedTypeIndex]
         }
         
         return equipmentType

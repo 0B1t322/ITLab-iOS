@@ -14,12 +14,8 @@ struct MainMenu: View {
     var eventPage = EventsPage()
     var usersPage = UsersListPage()
     var projectsPage = ProjectsMenuPage()
-<<<<<<< HEAD
-    @State var user: UserView = UserView()
     var equipmentPage = EquipmentPage()
-=======
     @State var user: UserRealm = UserRealm()
->>>>>>> 0e1354ff56e780def03c26189816a3eb3d683be5
     
     var body: some View {
         TabView {
