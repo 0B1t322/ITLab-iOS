@@ -14,16 +14,16 @@ struct EquipmentScanView: View {
     @ObservedObject var equipmentsObservable = EquipmentsObservable()
     
     var body: some View {
+        NavigationView {
             VStack {
                 CBScanner(
                     supportBarcode: .constant([.qr, .code128]),
                     torchLightIsOn: $flashIsOn,
                     scanInterval: .constant(5)
-                ) {_ in
-                    // TODO: Rewrite
-                    self.equipmentsObservable.match = "mock_serial_number"
+                ) {serialNumber in
+                    self.equipmentsObservable.match = serialNumber.value
                     
-                    showingModal = true
+                    showingModal.toggle()
                 } onDraw: {
                     let lineWidth = CGFloat(2)
                     // line color
@@ -48,14 +48,19 @@ struct EquipmentScanView: View {
                         }
                     )
                     .frame(width: 30, height: 30)
-                    Text(self.equipmentsObservable.match)
-                }.sheet(
-                    isPresented: $showingModal,
-                    content: {
-                        self.content()
-                    }
-                )
+                    Spacer()
+                        .frame(width: 30, height: 1)
+                   NavigationLink(
+                    destination: addPage(),
+                    isActive: $showingModal,
+                    label: {
+                        Image(systemName: "plus.circle")
+                    })
+                    .frame(width: 30, height: 30)
+                }
             }
+            .navigationBarHidden(true)
+        }
     }
     
     func addPage() -> some View {

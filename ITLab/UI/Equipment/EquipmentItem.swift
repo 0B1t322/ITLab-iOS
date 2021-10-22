@@ -25,7 +25,9 @@ struct EquipmentItem: View {
                 Spacer()
                 Button(
                     action: {
-                        self.loadData()
+                        if self.userObserved.user == nil {
+                            self.loadData()
+                        }
                         self.showFull.toggle()
                     },
                     label: {
@@ -90,8 +92,18 @@ struct ShowFullEquipmentInfo: View {
                     .padding(.horizontal)
                     .frame(width: 180.0, height: 20.0, alignment: .center)
                 Spacer()
-                Text("\(self.userObserved.getFullNameWithEmail() ?? "Лаборатория")")
-                    .modifier(EquipmentInfoTextModifier())
+                if self.userObserved.isLoading {
+                    GeometryReader {
+                        geometry in
+                        ProgressView()
+                            .frame(width: geometry.size.width,
+                                   height: geometry.size.height,
+                                   alignment: .center)
+                    }
+                } else {
+                    Text("\(self.userObserved.getFullNameWithEmail() ?? "Лаборатория")")
+                        .modifier(EquipmentInfoTextModifier())
+                }
                 Spacer()
             }
             HStack {

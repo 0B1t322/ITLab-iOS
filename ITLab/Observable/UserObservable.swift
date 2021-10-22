@@ -9,16 +9,19 @@ import Foundation
 import SwiftUI
 
 final class UserObservable: ObservableObject {
-    @Published var isLoading: Bool = false
+    @Published var isLoading: Bool = true
     @Published var user: UserView?
     
     func getUser(userId: UUID) {
+        self.isLoading = true
+        defer {
+            self.isLoading = false
+        }
         UserAPI.apiUserIdGet(_id: userId) { (user, error) in
             if let error = error {
                 print(error)
                 return
             }
-            
             self.user = user ?? nil
         }
     }

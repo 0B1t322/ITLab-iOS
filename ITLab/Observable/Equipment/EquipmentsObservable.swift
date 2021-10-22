@@ -10,12 +10,15 @@ import SwiftUI
 
 final class EquipmentsObservable: ObservableObject {
     @Published var equipmentModel: [CompactEquipmentView] = []
-    @Published var loading: Bool = false
+    @Published var loading: Bool = true
     @Published var onlyFree: Bool = false
     @Published var match: String = ""
     
     func getEquipment() {
         self.loading = true
+        defer {
+            self.loading = false
+        }
         EquipmentAPI.apiEquipmentGet(match: self.match, all: !self.onlyFree) { (equipmentModel, error) in
             if let error = error {
                 print(error)
@@ -23,7 +26,6 @@ final class EquipmentsObservable: ObservableObject {
             }
             self.equipmentModel = equipmentModel ?? [];
         }
-        self.loading = false
     }
     
 }

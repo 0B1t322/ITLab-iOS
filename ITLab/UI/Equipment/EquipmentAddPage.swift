@@ -24,48 +24,100 @@ struct EquipmentAddPage: View {
     /// затем надо выбрать из полученных если выбрал потвердить то что был добавлен
     /// если такого типа нет добавить свой
     /// и затем уже потвердить добавленное устройство
-    @ObservedObject var equipmentObserved = EquipmentObservable()
+    @ObservedObject var equipmentObserved = EquipmentCreateObservable()
+    @ObservedObject var equipmenstTypeObserver = EquipmentsTypeObservable()
+    @ObservedObject var equipmentTypeObserver = EquipmentTypeCreateObservable()
     @State var serialNumber: String
-    private let picker = EquipmentTypePicker()
+    @State var showValidAlert: Bool = false
+    @State private var alertMessage: AlertMessage = .empty
+    @State var validError: EquipmentTypeAdder.ValidError = EquipmentTypeAdder.ValidError.titleEmpty
+    @State var equipmentTypeID: UUID? = nil
+    
+    init(serialNumber: String) {
+        self._serialNumber = State(initialValue: serialNumber)
+    }
+    
+    enum AlertMessage: String {
+        case titleEmpty = "Название не может быть пустым"
+        case serialNumberEmpty = "Серийный номер не может быть пустым"
+        case empty = ""
+    }
     
     var body: some View {
         VStack {
             HStack {
-                picker
+                EquipmentTypePicker(validError: self.$validError, equipmentTypeID: self.$equipmentTypeID)
+                    .environmentObject(self.equipmenstTypeObserver)
             }
             HStack {
-                Text("Серийный номер: ")
-                Text(self.serialNumber)
-            }
+                Text("Cерийный номер:")
+                TextField("Серийный номер", text: $serialNumber)
+                    .frame(width: 100, height: 20, alignment: .center)
+            }.frame(alignment: .center)
             VStack {
-                
                 Button(
                     action: {
-                        let equipmentType = picker.getEquipmentType()
+                        if serialNumber.isEmpty {
+                            alertMessage = .serialNumberEmpty
+                            showValidAlert = true
+                            return
+                        } else if self.validError == EquipmentTypeAdder.ValidError.titleEmpty {
+                            alertMessage = .titleEmpty
+                            showValidAlert = true
+                            return
+                        }
+                        if let equipmentTypeId = equipmentTypeID {
+                            self.equipmentObserved.equipmentTypeId = equipmentTypeId
+                        } else if let equipmentTypeId = self.equipmentTypeObserver.createEquipmentType()?._id {
+                            self.equipmentObserved.equipmentTypeId = equipmentTypeId
+                        } else {
+                            print("failed to created equipment type")
+                        }
                         
-                        let equipmentTypeID = equipmentType.createType()
-                        
-                        equipmentObserved.createEquipment()
-                        self.presentationMode.wrappedValue.dismiss()
+                        equipmentObserved.serialNumber = serialNumber
+                        if let code = equipmentObserved.createEquipment() {
+                            switch code {
+                            case .created:
+                                self.presentationMode.wrappedValue.dismiss()
+                            case .equipmentTypeNotFound:
+                                print("equipment type not found")
+                            case .serialNumberExist:
+                                print("serial number exit")
+                            default:
+                                print("code \(code)")
+                            }
+                        }
                     },
                     label: {
                         Text("Добавить оборудование")
                     }
-                )
+                ).alert(isPresented: $showValidAlert, content: {
+                    Alert(
+                        title: Text(alertMessage.rawValue),
+                        dismissButton: .default(Text("Got it!"))
+                    )
+                })
             }
+        }.onAppear {
+            self.loadData()
         }
     }
     
     func loadData() {
-        self.picker.loadData()
+        equipmenstTypeObserver.getEquipmentType()
     }
 }
 
 struct EquipmentTypePicker: View {
-    @ObservedObject var equipmentsType: EquipmentsTypeObservable = EquipmentsTypeObservable()
-    @State var isAddingType: Bool = false
-    @State var selectedTypeIndex: Int = 0
+    @EnvironmentObject var equipmentsType: EquipmentsTypeObservable
+    @State var isAddingType: Bool = true
+    @State var selectedTypeIndex: Int = -1
+    @Binding var validError: EquipmentTypeAdder.ValidError
+    @Binding var equipmentTypeID: UUID?
     
+    @State var title: String = ""
+    @State var shortTitle: String = ""
+    @State var description: String = ""
     
     var body: some View {
         VStack {
@@ -73,34 +125,24 @@ struct EquipmentTypePicker: View {
                 Text("Выберите тип")
                 Picker(
                     selection: $selectedTypeIndex.onChange(onIndexChange),
-                    label: Text("\((selectedTypeIndex == -1 ? "Добавить тип" : equipmentsType.equipmentsType[selectedTypeIndex].title) ?? "s")"),
+                    label: Text("\((selectedTypeIndex == -1 ? "Добавить тип" : equipmentsType.equipmentsType[selectedTypeIndex].title!))"),
                     content: {
                         ForEach(equipmentsType.equipmentsType.indices, id: \.self) {
                             (index: Int) in
-                            Text(equipmentsType.equipmentsType[index].title ?? "s")
+                            if let title = equipmentsType.equipmentsType[index].title {
+                                Text(title)
+                            }
                         }
                         Text("Добавить тип").tag(-1)
                     }
                 ).pickerStyle(MenuPickerStyle())
             }
-            if isAddingType {
-                // TODO: check if fields not empty
-                VStack {
-                    HStack {
-                        Text("Название")
-                        Spacer()
-//                        TextField("Введите название", text: self.$addedType.title)
-                        Spacer()
-                    }
-                    HStack {
-                        Text("Описание")
-                        Spacer()
-//                        TextField("Введите описание", text: self.$addedType.description)
-                    }
-                }
+            if isAddingType || selectedTypeIndex == -1 {
+                EquipmentTypeAdder(title: $title, shortTitle: $shortTitle, description: $description, validError: $validError)
             }
         }
     }
+
     
     func loadData() {
         self.equipmentsType.getEquipmentType()
@@ -111,19 +153,64 @@ struct EquipmentTypePicker: View {
             isAddingType = true
         } else {
             isAddingType = false
+            equipmentTypeID = equipmentsType.equipmentsType[index]._id
+        }
+    }
+}
+
+struct EquipmentTypeAdder: View {
+    @Binding var title: String
+    @Binding var shortTitle: String
+    @Binding var description: String
+    @Binding var validError: ValidError
+    
+    enum ValidError: String {
+        case titleEmpty = "titleEmpty"
+        case no = ""
+    }
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Text("Полное название")
+                Spacer()
+                TextField("Введите название", text: self.$title).onChange(of: title, perform: { value in
+                    if value.isEmpty {
+                        self.validError = ValidError.titleEmpty
+                    } else {
+                        self.validError = ValidError.no
+                    }
+                })
+                Spacer()
+            }
+            HStack {
+                Spacer()
+                Text("Короткое название")
+                Spacer()
+                TextField("Введите короткое название", text: self.$shortTitle)
+                Spacer()
+            }
+            HStack {
+                Spacer()
+                Text("Описание")
+                Spacer()
+                TextField("Введите описание", text: self.$description)
+                Spacer()
+            }
+        }.onAppear {
+            if title.isEmpty {
+                self.validError = ValidError.titleEmpty
+            } else {
+                self.validError = ValidError.no
+            }
+        }.onDisappear {
+            self.validError = ValidError.no
         }
     }
     
-    func getEquipmentType() -> EquipmentTypeObservable {
-        let equipmentType = EquipmentTypeObservable()
-        
-        if self.isAddingType {
-//            equipmentType.equipmentType = addedType
-        } else {
-//            equipmentType.equipmentType = self.equipmentsType.equipmentsType[selectedTypeIndex]
-        }
-        
-        return equipmentType
+    func getTitle() -> String {
+        return self.title
     }
 }
 
@@ -132,13 +219,5 @@ struct EquipmentAdd_Previews: PreviewProvider {
         let view = EquipmentAddPage(serialNumber: "example")
         view.loadData()
         return view
-    }
-}
-
-struct EquipmentTypePicker_Previews: PreviewProvider {
-    static var previews: some View {
-        let view = EquipmentTypePicker()
-        view.loadData()
-        return view.environmentObject(EquipmentTypeObservable())
     }
 }
